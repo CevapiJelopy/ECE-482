@@ -25,7 +25,5 @@ env/
 .DS_Store
 Thumbs.db
 
-# Data cache
-*.csv
-*.json
-!package.json
+# Data cache (but keep results/)
+!stock_sentiment/results/

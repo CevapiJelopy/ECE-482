@@ -1,0 +1,194 @@
+{
+  "ticker": "AAPL",
+  "analysis_time": "2026-02-06T16:06:59.852560",
+  "lookback_days": 7,
+  "final_score": 51.65,
+  "sentiment": "neutral",
+  "news_count": 20,
+  "avg_confidence": 68.25,
+  "bullish_count": 5,
+  "bearish_count": 4,
+  "neutral_count": 11,
+  "details": [
+    {
+      "sentiment": "neutral",
+      "score": 50,
+      "confidence": 60,
+      "reason": "The news focuses on Berkshire Hathaway's accounting practices rather than AAPL stock specifically, providing no direct information about Apple's performance or outlook.",
+      "title": "Why Berkshire Hathaway Is a Better Business Than You Might Think",
+      "source": "The Motley Fool",
+      "published_utc": "2026-02-06T17:07:00Z"
+    },
+    {
+      "sentiment": "neutral",
+      "score": 50,
+      "confidence": 70,
+      "reason": "Article focuses on VTI rather than AAPL, mentioning large-cap tech underperformance relative to other sectors, but provides no specific AAPL information.",
+      "title": "Why I Am Never Selling This Broad Market ETF",
+      "source": "The Motley Fool",
+      "published_utc": "2026-02-06T16:30:00Z"
+    },
+    {
+      "sentiment": "neutral",
+      "score": 55,
+      "confidence": 70,
+      "reason": "Apple is mentioned as competition to OEMs' digital stacks, but not central to the news. Limited direct impact on AAPL stock from this industry trend.",
+      "title": "In-Vehicle Digital Experience Market Analysis/Forecast Report 2026-2036: Software-Defined Vehicles and Rich OTA Are Becoming Table Stakes, Fragmentation of Platforms and the Cost of Owning the Stack",
+      "source": "GlobeNewswire Inc.",
+      "published_utc": "2026-02-06T09:40:00Z"
+    },
+    {
+      "sentiment": "bullish",
+      "score": 65,
+      "confidence": 70,
+      "reason": "Physical AI trend benefits Apple through potential integration with devices and autonomous systems, though Apple isn't explicitly mentioned as a leader in the article.",
+      "title": "15 Physical AI Stocks To Watch In 2026 As Robots And Autonomy Scale Globally",
+      "source": "Benzinga",
+      "published_utc": "2026-02-05T21:03:33Z"
+    },
+    {
+      "sentiment": "bearish",
+      "score": 35,
+      "confidence": 75,
+      "reason": "Despite strong Q4 earnings, concerns about overvaluation (33x P/E), slow 6% annual growth, lagging AI adoption, and economic headwinds outweigh positive results.",
+      "title": "Is Apple Still a Good Growth Stock to Own in 2026?",
+      "source": "The Motley Fool",
+      "published_utc": "2026-02-05T10:30:00Z"
+    },
+    {
+      "sentiment": "bullish",
+      "score": 85,
+      "confidence": 60,
+      "reason": "Positive news about Amgen, not Apple. No relevant AAPL information to analyze in this content.",
+      "title": "Amgen Hits 52-Week Highs: Buy Signal?",
+      "source": "Investing.com",
+      "published_utc": "2026-02-05T08:43:00Z"
+    },
+    {
+      "sentiment": "neutral",
+      "score": 50,
+      "confidence": 60,
+      "reason": "This news is about Alphabet (GOOGL), not Apple (AAPL). Cannot derive AAPL sentiment from unrelated company's earnings preview.",
+      "title": "Alphabet Earnings Preview: Investors Eye Record Revenue Amid AI Spending Scrutiny",
+      "source": "Investing.com",
+      "published_utc": "2026-02-04T18:14:00Z"
+    },
+    {
+      "sentiment": "bullish",
+      "score": 65,
+      "confidence": 75,
+      "reason": "The article is positive about Meta, not specifically AAPL. Only indirect implication is that Apple remains one of Buffett's successful 'Magnificent Seven' investments.",
+      "title": "Meet the \"Magnificent Seven\" Stock Berkshire Hathaway and Investing Legend Warren Buffett Should Have Bought. (Hint: It's Not Apple, Amazon, or Alphabet.)",
+      "source": "The Motley Fool",
+      "published_utc": "2026-02-04T16:45:00Z"
+    },
+    {
+      "sentiment": "bearish",
+      "score": 35,
+      "confidence": 75,
+      "reason": "Capital rotation away from mega-cap tech like AAPL toward small-caps suggests negative sentiment specifically for AAPL, despite broader market optimism.",
+      "title": "5 Small-Cap Stocks to Consider as Investors Flee Mega-Cap Tech",
+      "source": "Investing.com",
+      "published_utc": "2026-02-04T16:11:00Z"
+    },
+    {
+      "sentiment": "neutral",
+      "score": 50,
+      "confidence": 40,
+      "reason": "News focuses on manufacturing industry trends without specific mention of Apple's operations, products, or financial performance.",
+      "title": "Manufacturing Industry in 2026: Key Trends and Transformations Shaping the Future of Production",
+      "source": "GlobeNewswire Inc.",
+      "published_utc": "2026-02-04T16:00:00Z"
+    },
+    {
+      "sentiment": "bullish",
+      "score": 85,
+      "confidence": 80,
+      "reason": "Article suggests strong growth potential for Meta to reach $3T valuation alongside AAPL, with 67% potential upside and AI-powered growth strategy.",
+      "title": "1 Unstoppable Stock to Buy Before It Joins Nvidia, Apple, Microsoft, and Alphabet in the $3 Trillion Club",
+      "source": "The Motley Fool",
+      "published_utc": "2026-02-04T14:11:00Z"
+    },
+    {
+      "sentiment": "neutral",
+      "score": 55,
+      "confidence": 70,
+      "reason": "News primarily concerns Google, with only indirect impact on Apple through search deal. Minimal immediate financial implications for AAPL stock.",
+      "title": "DOJ Reignites Antitrust Fight Against Google, Challenges Court's Refusal To Force Chrome Sale",
+      "source": "Benzinga",
+      "published_utc": "2026-02-04T12:39:28Z"
+    },
+    {
+      "sentiment": "bearish",
+      "score": 15,
+      "confidence": 90,
+      "reason": "News indicates PayPal's significant troubles, with Apple positioned as a competitive threat to PayPal, suggesting Apple is gaining ground in payments.",
+      "title": "Why PayPal Stock Crashed Today",
+      "source": "The Motley Fool",
+      "published_utc": "2026-02-04T00:17:47Z"
+    },
+    {
+      "sentiment": "neutral",
+      "score": 50,
+      "confidence": 70,
+      "reason": "News is about Netflix, not Apple. Only mentions Apple as a competitor in streaming, providing no meaningful information about AAPL stock performance.",
+      "title": "Netflix Stock Dips Below $80. Time to Buy?",
+      "source": "The Motley Fool",
+      "published_utc": "2026-02-03T22:33:00Z"
+    },
+    {
+      "sentiment": "neutral",
+      "score": 50,
+      "confidence": 70,
+      "reason": "Article mentions Apple only in passing as being surpassed by Monster Beverage, with no direct information about AAPL's performance or outlook.",
+      "title": "You'll Never Guess the Top-Performing Stock of the 21st Century",
+      "source": "The Motley Fool",
+      "published_utc": "2026-02-03T21:30:00Z"
+    },
+    {
+      "sentiment": "neutral",
+      "score": 50,
+      "confidence": 70,
+      "reason": "The news focuses on Walmart's success without mentioning AAPL stock or Apple's performance, providing no relevant information for Apple stock sentiment.",
+      "title": "Walmart Joins the Trillion Club as the Market Backs Its Digital Shift",
+      "source": "Investing.com",
+      "published_utc": "2026-02-03T20:40:00Z"
+    },
+    {
+      "sentiment": "bearish",
+      "score": 25,
+      "confidence": 85,
+      "reason": "Significant stock plunge, missed earnings, weak guidance, declining checkout growth, and CEO replacement signal serious operational challenges for PayPal.",
+      "title": "PayPal Sells Off Hard as Checkout Growth Slows and 2026 Outlook Disappoints",
+      "source": "Investing.com",
+      "published_utc": "2026-02-03T20:37:00Z"
+    },
+    {
+      "sentiment": "bullish",
+      "score": 75,
+      "confidence": 80,
+      "reason": "Strong iPhone revenue growth driven by sustainable replacement cycle rather than temporary AI hype, with analysts projecting record unit sales through 2027.",
+      "title": "Apple's Surging iPhone Sales Aren't Really About AI...and That's a Good Thing",
+      "source": "The Motley Fool",
+      "published_utc": "2026-02-03T19:15:00Z"
+    },
+    {
+      "sentiment": "neutral",
+      "score": 50,
+      "confidence": 70,
+      "reason": "Article discusses leveraged tech ETFs but contains no specific AAPL sentiment. AAPL is not mentioned in the provided content.",
+      "title": "Better AI Tech ETF: ProShares' QLD vs. Direxion's SOXL",
+      "source": "The Motley Fool",
+      "published_utc": "2026-02-03T18:17:45Z"
+    },
+    {
+      "sentiment": "neutral",
+      "score": 50,
+      "confidence": 25,
+      "reason": "News doesn't mention AAPL stock at all; it's about Central Bancompany (CBC) receiving investment from Central Trust Co.",
+      "title": "This Newly Public Bank Just Got a $177 Million Vote of Confidence From One Fund",
+      "source": "The Motley Fool",
+      "published_utc": "2026-02-03T10:35:33Z"
+    }
+  ]
+}

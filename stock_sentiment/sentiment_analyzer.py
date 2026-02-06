@@ -1,8 +1,10 @@
 """
 Sentiment Analysis Module - Uses WaveSpeed AI API (Claude 3.7 Sonnet) for news sentiment
+Supports concurrent LLM calls for faster batch analysis.
 """
 import json
 import requests
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List, Dict
 import config
 
@@ -18,6 +20,7 @@ class SentimentAnalyzer:
 
         self.api_url = config.WAVESPEED_API_URL
         self.model = config.LLM_MODEL
+        self.max_workers = config.MAX_CONCURRENT_LLM_CALLS
 
     def _call_llm(self, prompt: str) -> str:
         """
@@ -58,12 +61,14 @@ class SentimentAnalyzer:
 
         raise RuntimeError(f"LLM API error: {data.get('message', 'Unknown error')}")
 
-    def analyze_single_news(self, news: Dict) -> Dict:
+    def analyze_single_news(self, news: Dict, index: int = 0, total: int = 0) -> Dict:
         """
         Analyze sentiment for a single news article.
 
         Args:
             news: News dict with ticker, title, description, published_utc
+            index: Current article index (for logging)
+            total: Total number of articles (for logging)
 
         Returns:
             Sentiment result with sentiment, score, confidence, reason
@@ -91,15 +96,17 @@ class SentimentAnalyzer:
             result["source"] = news.get("source", "")
             result["published_utc"] = news.get("published_utc", "")
 
+            if index and total:
+                print(f"  [{index}/{total}] Done - {result.get('sentiment', '?')} ({result.get('score', '?')})")
+
             return result
 
         except json.JSONDecodeError as e:
-            print(f"  JSON parse failed: {e}")
-            print(f"  Raw response: {result_text[:200]}")
+            print(f"  [{index}/{total}] JSON parse failed: {e}")
             return self._default_result(news)
 
         except Exception as e:
-            print(f"  Analysis failed: {e}")
+            print(f"  [{index}/{total}] Analysis failed: {e}")
             return self._default_result(news)
 
     def _default_result(self, news: Dict) -> Dict:
@@ -116,20 +123,34 @@ class SentimentAnalyzer:
 
     def analyze_news_batch(self, news_list: List[Dict]) -> List[Dict]:
         """
-        Analyze sentiment for a batch of news articles.
+        Analyze sentiment for a batch of news articles using concurrent LLM calls.
 
         Args:
             news_list: List of news dicts
 
         Returns:
-            List of sentiment results
+            List of sentiment results (in original order)
         """
-        results = []
+        total = len(news_list)
+        print(f"  Launching {total} analyses with {self.max_workers} concurrent workers...")
 
-        for i, news in enumerate(news_list, 1):
-            print(f"  Analyzing article {i}/{len(news_list)}...")
-            result = self.analyze_single_news(news)
-            results.append(result)
+        results = [None] * total
+
+        with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+            future_to_idx = {
+                executor.submit(
+                    self.analyze_single_news, news, i + 1, total
+                ): i
+                for i, news in enumerate(news_list)
+            }
+
+            for future in as_completed(future_to_idx):
+                idx = future_to_idx[future]
+                try:
+                    results[idx] = future.result()
+                except Exception as e:
+                    print(f"  [{idx+1}/{total}] Worker error: {e}")
+                    results[idx] = self._default_result(news_list[idx])
 
         return results
 
@@ -206,14 +227,14 @@ if __name__ == "__main__":
         {
             "ticker": "AAPL",
             "title": "Apple Reports Record iPhone Sales in Q4",
-            "description": "Apple Inc. announced record-breaking iPhone sales for the fourth quarter, exceeding analyst expectations by 15%. The company's services revenue also grew significantly.",
+            "description": "Apple Inc. announced record-breaking iPhone sales for the fourth quarter, exceeding analyst expectations by 15%.",
             "published_utc": "2026-02-05T10:00:00Z",
             "source": "Reuters"
         },
         {
             "ticker": "AAPL",
             "title": "Apple Faces Supply Chain Challenges in China",
-            "description": "Apple is experiencing production delays at its major manufacturing facilities in China due to ongoing supply chain disruptions.",
+            "description": "Apple is experiencing production delays at its major manufacturing facilities in China.",
             "published_utc": "2026-02-04T08:00:00Z",
             "source": "Bloomberg"
         }
@@ -222,7 +243,7 @@ if __name__ == "__main__":
     analyzer = SentimentAnalyzer()
 
     print("=" * 50)
-    print("Testing Sentiment Analysis")
+    print("Testing Sentiment Analysis (Concurrent)")
     print("=" * 50)
 
     results = analyzer.analyze_news_batch(test_news)
@@ -232,11 +253,6 @@ if __name__ == "__main__":
         print(f"Sentiment: {r['sentiment']} | Score: {r['score']} | Confidence: {r['confidence']}")
         print(f"Reason: {r['reason']}")
 
-    print("\n" + "=" * 50)
-    print("Aggregated Result")
-    print("=" * 50)
-
     aggregated = analyzer.aggregate_sentiment(results)
-    print(f"Final Score: {aggregated['final_score']}")
-    print(f"Overall Sentiment: {aggregated['sentiment']}")
-    print(f"Articles Analyzed: {aggregated['news_count']}")
+    print(f"\nFinal Score: {aggregated['final_score']}")
+    print(f"Overall: {aggregated['sentiment']}")

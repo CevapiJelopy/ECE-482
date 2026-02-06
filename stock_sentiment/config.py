@@ -15,8 +15,11 @@ WAVESPEED_API_KEY = os.getenv("WAVESPEED_API_KEY")
 POLYGON_BASE_URL = "https://api.polygon.io"
 
 # News fetching config
-DEFAULT_NEWS_LIMIT = 10  # Default number of news articles per stock
-NEWS_LOOKBACK_DAYS = 3   # Fetch news from the past N days
+DEFAULT_NEWS_LIMIT = 20  # Default number of news articles per stock
+NEWS_LOOKBACK_DAYS = 7   # Fetch news from the past N days
+
+# Concurrency config
+MAX_CONCURRENT_LLM_CALLS = 5  # Max parallel LLM API calls
 
 # WaveSpeed LLM API config
 WAVESPEED_API_URL = "https://api.wavespeed.ai/api/v3/wavespeed-ai/any-llm"
