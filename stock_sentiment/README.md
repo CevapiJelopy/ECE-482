@@ -2,182 +2,192 @@
 
 **ECE 482 Senior Design Project** — University of Miami
 
-A web-based stock analysis tool that uses LLM API to evaluate financial news sentiment for technology sector stocks and generate a quantitative 0–100 bullishness score.
+This tool reads recent financial news about tech stocks and uses AI to tell you whether the news is positive (bullish), negative (bearish), or neutral. It gives each stock a score from 0 to 100 so you can quickly see market sentiment at a glance.
 
-## Project Structure
+---
 
-```
-stock_sentiment/
-├── config.py              # Configuration (API keys, stock list, prompt, params)
-├── news_fetcher.py        # Polygon.io news retrieval module
-├── sentiment_analyzer.py  # LLM sentiment analysis (WaveSpeed AI / Claude 3.7)
-├── main.py                # Main entry point (CLI)
-├── requirements.txt       # Python dependencies
-├── .env                   # API keys (DO NOT commit)
-├── .env.example           # API key template
-└── results/               # Auto-saved analysis results (JSON + CSV)
-```
+## Quick Start (Get Running in 5 Minutes)
 
-## Prerequisites
+### Step 1: Download the project
 
-- Python 3.10+
-- [Polygon.io](https://polygon.io/) API key (free tier works)
-- [WaveSpeed AI](https://wavespeed.ai/) API key
-
-## Setup
-
-### 1. Clone the repository
+Open a terminal (Command Prompt on Windows, Terminal on Mac) and run:
 
 ```bash
 git clone https://github.com/cccccclu26/ECE-482.git
 cd ECE-482/stock_sentiment
 ```
 
-### 2. Create virtual environment (recommended)
+> **Don't have Git?** You can also click the green "Code" button on GitHub and select "Download ZIP", then unzip the folder.
 
-```bash
-python -m venv venv
-
-# Windows
-venv\Scripts\activate
-
-# macOS/Linux
-source venv/bin/activate
-```
-
-### 3. Install dependencies
+### Step 2: Install Python packages
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure API keys
+> **"pip not found"?** Try `python -m pip install -r requirements.txt` or `py -m pip install -r requirements.txt` on Windows.
 
-Copy the example file and fill in your keys:
+### Step 3: Set up your API keys
 
-```bash
-cp .env.example .env
+You need two free API keys. Here's how to get them:
+
+| Key | Where to get it | What it does |
+|-----|-----------------|--------------|
+| Polygon.io | [polygon.io](https://polygon.io/) - Sign up free | Fetches stock news |
+| WaveSpeed AI | [wavespeed.ai](https://wavespeed.ai/) | Runs the AI analysis |
+
+Once you have both keys, create a file called `.env` in the `stock_sentiment/` folder:
+
+```
+POLYGON_API_KEY=paste_your_polygon_key_here
+WAVESPEED_API_KEY=paste_your_wavespeed_key_here
 ```
 
-Edit `.env`:
+> **Tip:** There's already a file called `.env.example` in the folder. You can copy it, rename it to `.env`, and replace the placeholder text with your real keys.
 
-```
-POLYGON_API_KEY=your_polygon_api_key_here
-WAVESPEED_API_KEY=your_wavespeed_api_key_here
-```
-
-## Usage
-
-All commands should be run from the `stock_sentiment/` directory.
-
-### Analyze a single stock
+### Step 4: Run it!
 
 ```bash
 python main.py -t AAPL
 ```
 
-### Analyze a single stock with custom article count
+That's it! You should see sentiment analysis results for Apple (AAPL) in your terminal.
+
+---
+
+## Usage Examples
 
 ```bash
+# Analyze Apple stock
+python main.py -t AAPL
+
+# Analyze NVIDIA with 10 news articles
 python main.py -t NVDA -n 10
-```
 
-### Analyze all configured tech stocks
-
-```bash
+# Analyze all 10 pre-configured tech stocks at once
 python main.py -a
-```
 
-### Run demo mode (AAPL, NVDA, MSFT)
-
-```bash
+# Quick demo (analyzes AAPL, NVDA, MSFT)
 python main.py
 ```
 
-### Command-line options
+### Options
 
-| Flag | Description | Default |
-|------|-------------|---------|
-| `-t TICKER` | Analyze a single stock by ticker symbol | — |
-| `-a` | Analyze all 10 configured tech stocks | — |
-| `-n NUM` | Number of news articles to fetch per stock | 20 |
-| *(no flags)* | Run demo mode with 3 stocks | — |
+| Command | What it does |
+|---------|--------------|
+| `python main.py -t AAPL` | Analyze one stock (replace AAPL with any ticker) |
+| `python main.py -a` | Analyze all 10 tech stocks |
+| `python main.py -t AAPL -n 10` | Analyze with a specific number of articles |
+| `python main.py` | Run a quick demo |
 
-## Configuration
-
-Key parameters in `config.py`:
-
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `DEFAULT_NEWS_LIMIT` | 20 | Articles fetched per stock |
-| `NEWS_LOOKBACK_DAYS` | 7 | How many days back to search for news |
-| `MAX_CONCURRENT_LLM_CALLS` | 5 | Parallel LLM API workers |
-| `LLM_MODEL` | `anthropic/claude-3.7-sonnet` | LLM model used for analysis |
-
-### Default stock list
+### Supported Stocks (default)
 
 AAPL, MSFT, GOOGL, AMZN, NVDA, META, TSLA, AMD, INTC, CRM
 
-To modify, edit the `TECH_STOCKS` list in `config.py`.
+You can add or remove stocks by editing the `TECH_STOCKS` list in `config.py`.
 
-## Output
+---
 
-### Terminal output
+## Understanding the Output
 
-Each analysis prints:
-- Final sentiment score (0–100)
-- Overall sentiment label (BULLISH / NEUTRAL / BEARISH)
-- Article count and average confidence
-- Per-article breakdown with score, source, date, and reasoning
+When you run an analysis, you'll see something like this:
 
-### Saved results
-
-Results are automatically saved to the `results/` directory:
-
-- **Single stock**: `results/{TICKER}_{timestamp}.json`
-- **Batch analysis**: `results/analysis_{timestamp}.json` + `results/summary_{timestamp}.csv`
-
-Example JSON structure:
-
-```json
-{
-  "ticker": "AAPL",
-  "analysis_time": "2026-02-06T16:06:59",
-  "lookback_days": 7,
-  "final_score": 51.65,
-  "sentiment": "neutral",
-  "news_count": 20,
-  "avg_confidence": 68.25,
-  "bullish_count": 5,
-  "bearish_count": 4,
-  "neutral_count": 11,
-  "details": [
-    {
-      "sentiment": "neutral",
-      "score": 50,
-      "confidence": 60,
-      "reason": "...",
-      "title": "...",
-      "source": "The Motley Fool",
-      "published_utc": "2026-02-06T17:07:00Z"
-    }
-  ]
-}
+```
+============================================================
+Result: AAPL
+============================================================
+Final Score:    51.6 / 100
+Sentiment:      NEUTRAL
+Articles:       20
+Lookback:       7 days
+Avg Confidence: 68.2%
+Bullish/Neutral/Bearish: 5/11/4
 ```
 
-## How It Works
+### What do the numbers mean?
 
-1. **News Fetching** — Retrieves recent news articles from Polygon.io for the given ticker (default: last 7 days)
-2. **LLM Sentiment Analysis** — Sends each article to Claude 3.7 Sonnet via WaveSpeed AI API with a structured prompt; receives a JSON response with sentiment label, score (0–100), confidence, and reasoning
-3. **Aggregation** — Computes a confidence-weighted average of all article scores to produce a final stock-level sentiment score
-4. **Output & Save** — Prints results to terminal and auto-saves to `results/` directory
+| Score Range | Sentiment | Meaning |
+|-------------|-----------|---------|
+| 70 - 100 | BULLISH | News is mostly positive, stock may go up |
+| 60 - 69 | Slightly Bullish | Leaning positive |
+| 41 - 59 | NEUTRAL | Mixed or no strong signal |
+| 31 - 40 | Slightly Bearish | Leaning negative |
+| 0 - 30 | BEARISH | News is mostly negative, stock may go down |
 
-## Important Notes
+### Where are results saved?
 
-- **Never commit `.env`** — it contains your API keys
-- API calls cost money — monitor your usage on Polygon.io and WaveSpeed AI dashboards
-- This is an **educational project**, not professional financial advice
-- Past performance does not guarantee future results
+Every analysis is automatically saved to the `results/` folder:
+
+- `results/AAPL_20260206_160659.json` — detailed results for a single stock
+- `results/analysis_20260206_160659.json` — detailed results for batch analysis
+- `results/summary_20260206_160659.csv` — summary table (open with Excel)
+
+---
+
+## How It Works (Simple Version)
+
+```
+You pick a stock (e.g., AAPL)
+        |
+        v
+Fetch 20 recent news articles (last 7 days)
+        |
+        v
+AI reads each article and scores it 0-100
+        |
+        v
+Combine all scores into one final score
+        |
+        v
+Show results + save to file
+```
+
+---
+
+## Project Structure
+
+```
+stock_sentiment/
+├── main.py                # Run this file to start
+├── config.py              # Settings (change stock list, article count, etc.)
+├── news_fetcher.py        # Gets news from Polygon.io
+├── sentiment_analyzer.py  # AI sentiment analysis engine
+├── requirements.txt       # Python packages needed
+├── .env                   # Your API keys (keep this private!)
+├── .env.example           # Template for .env
+└── results/               # Analysis results saved here
+```
+
+## Settings You Can Change
+
+Edit `config.py` to customize:
+
+| Setting | Default | What it does |
+|---------|---------|--------------|
+| `DEFAULT_NEWS_LIMIT` | 20 | How many articles to analyze per stock |
+| `NEWS_LOOKBACK_DAYS` | 7 | How far back to look for news (in days) |
+| `MAX_CONCURRENT_LLM_CALLS` | 5 | How many articles to analyze at the same time (higher = faster but uses more API quota) |
+
+---
+
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| `pip not found` | Use `python -m pip install -r requirements.txt` |
+| `ModuleNotFoundError` | Make sure you ran `pip install -r requirements.txt` |
+| `POLYGON_API_KEY is required` | Create the `.env` file with your API keys (see Step 3) |
+| `WAVESPEED_API_KEY is required` | Same as above — make sure both keys are in `.env` |
+| `No news found for XXXX` | The ticker might not have recent news, or check your Polygon API key |
+| Garbled text on Windows | This is a known encoding issue — the analysis still works correctly |
+
+---
+
+## Important
+
+- **Do NOT share your `.env` file** — it contains your private API keys
+- API calls may cost money — check your usage on Polygon.io and WaveSpeed AI
+- This is an **educational project**, not financial advice. Do not make investment decisions based solely on this tool.
 
 ## Team
 
@@ -186,6 +196,4 @@ Example JSON structure:
 - Alexander Pena — Web Interface & User Experience
 - Advisor: Dr. Mingzhe Chen
 
-## License
-
-This project is for educational purposes as part of ECE 481/482 Senior Design at the University of Miami.
+*ECE 481/482 Senior Design — University of Miami*
